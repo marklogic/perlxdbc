@@ -21,6 +21,7 @@ Alpha. API will change.
 This class represents a single part of a multipart XDBC response.
 
 =cut
+
 use strict;
 use Data::Dumper;
 use LWP::UserAgent;

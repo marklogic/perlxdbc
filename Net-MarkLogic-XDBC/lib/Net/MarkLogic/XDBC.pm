@@ -43,7 +43,7 @@ use Template;
 
 use Net::MarkLogic::XDBC::Result;
 
-our $VERSION     = 0.05;
+our $VERSION     = 0.11;
 
 our @BASIC_FIELDS = qw(host port username password uri);
 our @REQUIRED_FIELDS = qw(host port username password);
@@ -79,9 +79,9 @@ sub new
         $_[0] =~ m/
             ^  ([^:]+)    # username 
             :  ([^\s\@]+) # password
-            \@ ([\w\-]+)  # hostname
+            \@ ([\w\-\.]+)  # hostname
             :  (\d+) $    # port
-        /x or die "Bad connection string: $args{dsn}";
+        /x or die "Bad connection string: $_[0]";
 
         $args{username} = $1;
         $args{password} = $2;

@@ -38,7 +38,6 @@ use Net::MarkLogic::XDBC::Result::Item;
 use Class::Accessor;
 use Class::Fields;
 
-our $VERSION     = 0.01;
 our @BASIC_FIELDS = qw(response);
 
 use base qw(Class::Accessor Class::Fields);
@@ -83,6 +82,7 @@ sub _parse_multipart_header {
 
     my @items = ();
     my $ctype = $self->response->header('Content-Type'); 
+
     my $boundary;
     
     if ($ctype && ($ctype =~ m/boundary=(\w+)/))
