@@ -63,27 +63,48 @@ sub new
 
     my $self = bless ({}, ref ($class) || $class);
     
+
     $self->response($args{response});
-    my ($boundary) = $self->response->header('Content-Type') 
-                       =~ m/boundary=(\w+)/;
-                                                                                
-    my @items;
-    foreach my $part (split("--$boundary", $self->response->content()) ) 
+
+    if (!$self->response->is_success)
     {
-        if ( $part =~ m/Content-Type: \s (\S*) \s*
-                       X-Primitive: \s (\S*)  \s*
-                       (.*)/xs ) 
+        # TODO - error handling
+        $self->{items} = ();
+        return $self;
+    }
+
+    $self->{items} = $self->_parse_multipart_header;
+     
+    return $self;
+}
+
+sub _parse_multipart_header {
+    my $self = shift;
+
+    my @items = ();
+    my $ctype = $self->response->header('Content-Type'); 
+    my $boundary;
+    
+    if ($ctype && ($ctype =~ m/boundary=(\w+)/))
+    {
+       $boundary = "--" . $1;
+
+        foreach my $part (split("$boundary", $self->response->content()) ) 
         {
-            push (@items, Net::MarkLogic::XDBC::Result::Item->new(
-                              content_type => $1,
-                              type         => $2,
-                              content      => $3,
-                          ));
+            if ( $part =~ m/Content-Type: \s (\S*) \s*
+                        X-Primitive: \s (\S*)  \s*
+                        (.*)/xs ) 
+            {
+                push (@items, Net::MarkLogic::XDBC::Result::Item->new(
+                                content_type => $1,
+                                type         => $2,
+                                content      => $3,
+                            ));
+            }
         }
     }
-    $self->{items} = \@items;
- 
-    return $self;
+
+    return @items;
 }
 
 =head2 content()
