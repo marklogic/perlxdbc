@@ -104,7 +104,7 @@ sub _parse_multipart_header {
         }
     }
 
-    return @items;
+    return \@items;
 }
 
 =head2 content()
