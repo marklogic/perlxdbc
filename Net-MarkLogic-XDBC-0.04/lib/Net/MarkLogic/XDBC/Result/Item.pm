@@ -39,9 +39,9 @@ Net::MarkLogic::XDBC::Result::Item->mk_accessors( @BASIC_FIELDS );
  
 sub new
 {
-	my ($class, %args) = @_;
+    my ($class, %args) = @_;
 
-	my $self = bless ({}, ref ($class) || $class);
+    my $self = bless ({}, ref ($class) || $class);
 
     $self->content_type($args{content_type});
     $self->type($args{type});
@@ -91,7 +91,7 @@ Big time. Watch out for changing APIs.
 
 =head1 AUTHOR
 
-    Tony Stubblebine	
+    Tony Stubblebine
     tonys@oreilly.com
 
 =head1 COPYRIGHT
