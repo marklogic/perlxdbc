@@ -254,6 +254,12 @@ Big time. Watch out for changing APIs.
     Tony Stubblebine
     tonys@oreilly.com
 
+=head1 ACKNOWLEDGEMENTS
+
+    Code contributions from: Michael Blakeley
+ 
+    Advice and comments from Raffaele Sena, Ryan Grimm, Andy Bruno.
+
 =head1 COPYRIGHT
 
 Copyright 2004 Tony Stubblebine 
