@@ -113,7 +113,7 @@ print $result->content();
 
 The content of the response, usually XML. Doesn't contain any info about the
 content's data type. If the response contains multiple parts, the content of
-each part is concatenated. The results are returned inside of a <xdbc_result>
+each part is concatenated. The results are returned inside of a <result>
 tag to ensure a complete XML document.
 
 =cut
@@ -139,7 +139,7 @@ sub content
 print $result->as_xml
 
 Returns an XML representation of the result including content type and xml
-type. The document has a root node of xdbc_result and each part of the response
+type. The document has a root node of result and each part of the response
 is inside an entry node. The entry node contains two attributes, content_type 
 and x_type.
 
