@@ -1,9 +1,10 @@
 Revision history for Perl module Net::MarkLogic::XDBC
 
 0.05 Sun Nov 21 18:00:00 2004
-     - Connect using a single connection string XDBC->new("user:pass@host:port")
-     - Argument checking.
-     - Put <result> tag in namespace. 
+     - Connect using a single connection string
+       XDBC->new("user:pass@host:port")(Thanks Michael Blakeley)
+     - Argument checking. (Thanks Michael Blakeley)
+     - Put <result> tag in namespace. (Thanks Raffaele Sena)
 
 0.04  
      - API changes. Mostly just naming. 
