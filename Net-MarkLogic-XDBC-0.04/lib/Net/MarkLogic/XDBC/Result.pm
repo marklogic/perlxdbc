@@ -57,11 +57,11 @@ Result objects are normally created for you after calls to XDBC->query.
 
 sub new
 {
-	my ($class, %args) = @_;
+    my ($class, %args) = @_;
 
     die "No HTTP::Response argument" unless $args{response};
 
-	my $self = bless ({}, ref ($class) || $class);
+    my $self = bless ({}, ref ($class) || $class);
     
     $self->response($args{response});
     my ($boundary) = $self->response->header('Content-Type') 
@@ -170,7 +170,7 @@ Big time. Watch out for changing APIs.
 
 =head1 AUTHOR
 
-    Tony Stubblebine	
+    Tony Stubblebine
     tonys@oreilly.com
 
 =head1 COPYRIGHT
