@@ -124,12 +124,12 @@ sub content
  
     my $content;
     
-    $content = "<xdbc_result>\n";
+    $content = "<xq:result xmlns:xq="http://xqzone.com/xdbc/driver">\n";
     foreach my $item ($self->items) 
     {
         $content .= $item->content;
     }
-    $content .= "</xdbc_result>\n";
+    $content .= "</result>\n";
 
     return $content;
 }
@@ -149,13 +149,13 @@ sub as_xml
 {
     my $self = shift;
                                                                                 
-    my $xml = "<xdbc_result>\n";
+    my $xml = "<xq:result xmlns:xq="http://xqzone.com/xdbc/driver">\n";
                                                                                 
     foreach my $item ($self->items) 
     {
         $xml .= $item->as_xml;
     }
-    $xml .= "</xdbc_result>\n";
+    $xml .= "</result>\n";
                                                                                 
     return $xml;
 }
