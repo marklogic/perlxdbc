@@ -1,5 +1,7 @@
 Revision history for Perl module Net::MarkLogic::CIS
 
+0.04 API changes. Mostly just naming. Also added query_from_template, so that xquery can be stored and processed in TT templates.
+
 0.01 Sun Oct 31 20:17:51 2004
 	- original version; created by ExtUtils::ModuleMaker 0.32
 
