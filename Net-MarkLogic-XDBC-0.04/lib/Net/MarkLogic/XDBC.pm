@@ -60,16 +60,16 @@ Net::MarkLogic::XDBC->mk_accessors( @BASIC_FIELDS );
 
 sub new
 {
-	my ($class, %args) = @_;
+    my ($class, %args) = @_;
 
-	my $self = bless ({}, ref ($class) || $class);
+    my $self = bless ({}, ref ($class) || $class);
 
     $self->host($args{host});
     $self->port($args{port});
     $self->username($args{username});
     $self->password($args{password});
 
-	return ($self);
+    return ($self);
 }
 
 
@@ -219,7 +219,7 @@ Big time. Watch out for changing APIs.
 
 =head1 AUTHOR
 
-    Tony Stubblebine	
+    Tony Stubblebine
     tonys@oreilly.com
 
 =head1 COPYRIGHT
