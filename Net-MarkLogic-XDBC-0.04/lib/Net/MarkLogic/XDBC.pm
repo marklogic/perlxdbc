@@ -8,11 +8,13 @@ Net::MarkLogic::XDBC - XDBC connectivity for MarkLogic CIS servers.
 =head1 SYNOPSIS
 
   use Net::MarkLogic::XDBC
+ 
+  $xdbc = Net::MarkLogic::XDBC->new( "user:pass@localhost:9000" );
   
   $xdbc = Net::MarkLogic::XDBC->new(host     => $host,
                                     port     => $port,
                                     username => $user,
-                                    password => $pass );
+                                    password => $pass, );
 
   $result = $agent->query($xquery);
 
@@ -30,16 +32,21 @@ Connect to a CIS XDBC server and execute xquery code.
 =cut
 
 use strict;
+use warnings;
+
 use Data::Dumper;
 use LWP::UserAgent;
 use Class::Accessor;
 use Class::Fields;
 use URI::Escape;
 use Template;
+
 use Net::MarkLogic::XDBC::Result;
 
-our $VERSION     = 0.04;
+our $VERSION     = 0.05;
+
 our @BASIC_FIELDS = qw(host port username password uri);
+our @REQUIRED_FIELDS = qw(host port username password);
 
 use base qw(Class::Accessor Class::Fields);
 use fields @BASIC_FIELDS, qw(ua header template);
@@ -50,17 +57,42 @@ Net::MarkLogic::XDBC->mk_accessors( @BASIC_FIELDS );
 
 =head2 new()
 
+  $xdbc = Net::MarkLogic::XDBC->new( "user:pass@localhost:9000" );
+
   $xdbc = Net::MarkLogic::XDBC->new( host     => $hostname,
                                      port     => $port,
                                      username => $user,
                                      password => $pass, );
 
 
+Connect using a connection string or named host, port, username, and password parameters. 
 =cut
 
 sub new
 {
-    my ($class, %args) = @_;
+    my $class = shift;
+    
+    my %args;
+    
+    if (scalar @_ == 1)
+    {
+        $_[0] =~ m/
+            ^  ([^:]+)    # username 
+            :  ([^\s\@]+) # password
+            \@ ([\w\-]+)  # hostname
+            :  (\d+) $    # port
+        /x or die "Bad connection string: $args{dsn}";
+
+        $args{username} = $1;
+        $args{password} = $2;
+        $args{host}     = $3;
+        $args{port}     = $4;
+    }
+    else { %args = @_; }
+    
+    foreach my $key (@REQUIRED_FIELDS) {
+        die "Invalid connection info. Missing $key." unless $args{$key};
+    }
 
     my $self = bless ({}, ref ($class) || $class);
 
@@ -103,7 +135,7 @@ sub query
 
 =head2 query_from_template()
 
-    $result = $xdbc->query($template, $args);
+    $result = $xdbc->query_from_template($template, $args);
 
 Generate XQUERY code from a template toolkit template and arguments, then execute on XDBC server.
 
