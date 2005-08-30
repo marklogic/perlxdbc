@@ -37,6 +37,7 @@ use LWP::UserAgent;
 use Net::MarkLogic::XDBC::Result::Item;
 use Class::Accessor;
 use Class::Fields;
+use XML::LibXML;
 
 our @BASIC_FIELDS = qw(response);
 
@@ -67,9 +68,13 @@ sub new
 
     if (!$self->response->is_success)
     {
-        # TODO - error handling
-        $self->{items} = ();
-        return $self;
+        # TODO - better error handling
+        my $parser = XML::LibXML->new();
+        my $doc = $parser->parse_string($self->response->{_content});
+        my $errString = $doc->findvalue("/err:error/err:format-string");
+        my $errLine = $doc->findvalue("/err:error/err:stack/err:frame[1]/err:line");
+        my $errUri = $doc->findvalue("/err:error/err:stack/err:frame[1]/err:uri");
+        die "XQuery error: $errString on line $errLine $errUri";
     }
 
     $self->{items} = $self->_parse_multipart_header;
